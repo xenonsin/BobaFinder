@@ -34,5 +34,9 @@ dependencies {
     compile 'com.loopj.android:android-async-http:1.4.6'
     // ActiveAndroid for simple persistence with an ORM
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    //Google Drive API
+    compile 'com.google.android.gms:play-services:7.8.0'
+    compile 'com.google.android.gms:play-services-location:7.8.0'
+
     compile files('libs/androidasync-2.1.6.jar')
 }
