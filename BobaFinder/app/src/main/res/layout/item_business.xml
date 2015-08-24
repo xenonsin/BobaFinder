@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/selectableItemBackground">
+    <ImageView
+        android:id="@+id/item_imageView"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:src="@drawable/testboba"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/item_nameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignLeft="@+id/item_imageView"
+        android:layout_alignRight="@+id/item_imageView"
+        android:layout_alignBottom="@+id/item_imageView"
+
+        android:text="Milk and Honey"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:background="#AA000000"
+        android:textColor="#ffffff"/>
+
+    <ImageView
+        android:id="@+id/item_ratingImageView"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="4dp"
+
+        android:layout_alignLeft="@+id/item_nameTextView"
+        android:layout_alignBottom="@+id/item_imageView"
+        android:src="@drawable/stars"
+        android:background="#AA000000"
+        android:scaleType="fitXY"/>
+
+    <TextView
+        android:id="@+id/item_reviewTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_alignRight="@+id/item_nameTextView"
+        android:layout_alignBottom="@+id/item_imageView"
+
+        android:text="86 Reviews"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#ffffff"/>
+
+    <TextView
+        android:id="@+id/item_distanceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:layout_alignRight="@+id/item_nameTextView"
+        android:layout_alignBottom="@+id/item_imageView"
+
+        android:text="7.0 m"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#ffffff"/>
+
+
+</RelativeLayout>

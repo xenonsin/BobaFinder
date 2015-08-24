@@ -1,0 +1,23 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:nestedScrollingEnabled="false"
+    android:weightSum="1"
+    tools:context=".MainActivity"
+    android:background="#00BCD4">
+    <ImageView
+        android:layout_width="307dp"
+        android:layout_height="168dp"
+        android:scaleType="fitXY"
+        android:id="@+id/imageButton"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/title"
+        android:background="#00BCD4"
+        android:onClick="findBoba"
+        android:layout_weight="0.40" />
+
+
+</LinearLayout>
