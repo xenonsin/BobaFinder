@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Business {
     private String id;
@@ -19,6 +20,10 @@ public class Business {
     private String snippetImgUrl;
     private String city="";
     private String address;
+    private double logitude;
+    private double latitude;
+    private JSONObject location;
+
 
     public String getSnippetImgUrl() {
         return snippetImgUrl;
@@ -86,6 +91,22 @@ public class Business {
         this.address = address;
     }
 
+    public double getLogitude() {
+        return logitude;
+    }
+
+    public void setLogitude(double logitude) {
+        this.logitude = logitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
     public static Business fromJson(JSONObject jsonObject) {
         Business b = new Business();
         // Deserialize json into object fields
@@ -97,7 +118,10 @@ public class Business {
             b.distance = jsonObject.getDouble("distance");
             b.reviewCount = jsonObject.getInt("review_count");
             b.ratingImgUrl = jsonObject.getString("rating_img_url");
-            b.address = jsonObject.getString("location.address");
+            b.location = jsonObject.getJSONObject("location");
+            JSONObject coords = b.location.getJSONObject("coordinate");
+            b.latitude = coords.getDouble("latitude");
+            b.logitude = coords.getDouble("longitude");
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
@@ -132,5 +156,14 @@ public class Business {
     public Business (String name)
     {
         setName(name);
+    }
+
+
+    public JSONObject getLocation() {
+        return location;
+    }
+
+    public void setLocation(JSONObject location) {
+        this.location = location;
     }
 }

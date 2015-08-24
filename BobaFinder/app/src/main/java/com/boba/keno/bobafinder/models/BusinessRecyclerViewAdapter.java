@@ -2,7 +2,11 @@ package com.boba.keno.bobafinder.models;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.media.Image;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +19,9 @@ import android.widget.Toast;
 import com.boba.keno.bobafinder.R;
 import com.koushikdutta.ion.Ion;
 
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRecyclerViewAdapter.ViewHolder>
 {
@@ -53,6 +59,19 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
             // We can access the data within the views
             //change this to access the map
             Toast.makeText(context, tvName.getText(), Toast.LENGTH_SHORT).show();
+            Uri location = Uri.parse("geo:<" + business.getLatitude()  + ">,<" +
+                    business.getLogitude() + ">?q=<" + business.getLatitude()  + ">,<" +
+                    business.getLogitude() + ">(" + business.getName() + ")");
+            showMap(location);
+
+        }
+
+        public void showMap(Uri geoLocation) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(geoLocation);
+            if (intent.resolveActivity(context.getPackageManager()) != null) {
+                context.startActivity(intent);
+            }
         }
     }
     // Store a member variable for the businesses
@@ -63,7 +82,6 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
     public BusinessRecyclerViewAdapter(Context context, ArrayList<Business> businesses)
     {
         this.businesses = businesses;
-        Log.d("help", businesses.get(0).getName());
         this.context = context;
     }
 
