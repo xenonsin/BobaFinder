@@ -36,6 +36,7 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         public TextView tvReview;
         public TextView tvDistance;
         private Context context;
+        public Business business;
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
         public ViewHolder(Context context, View itemView) {
@@ -55,7 +56,7 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         @Override
         public void onClick(View view) {
             int position = getLayoutPosition(); // gets item position
-            Business business = businesses.get(position);
+            //Business business = businesses.get(position);
             // We can access the data within the views
             //change this to access the map
             Toast.makeText(context, tvName.getText(), Toast.LENGTH_SHORT).show();
@@ -75,7 +76,7 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         }
     }
     // Store a member variable for the businesses
-    private static ArrayList<Business> businesses;
+    public ArrayList<Business> businesses;
     // Store the context for later use
     private Context context;
 
@@ -101,6 +102,7 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         // Get the data model based on position
         Business business = businesses.get(position);
         // Set item views based on the data model
+        holder.business = business;
         holder.tvName.setText(business.getName());
         holder.tvReview.setText(business.getReviewCount() + " Reviews");
         double temp = business.getDistance() * 0.00062137;
@@ -117,6 +119,17 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
     @Override
     public int getItemCount() {
         return businesses.size();
+    }
+
+    public void clear() {
+        businesses.clear();
+        notifyDataSetChanged();
+    }
+
+    // Add a list of items
+    public void addAll(List<Business> list) {
+        businesses.addAll(list);
+        notifyDataSetChanged();
     }
 
 

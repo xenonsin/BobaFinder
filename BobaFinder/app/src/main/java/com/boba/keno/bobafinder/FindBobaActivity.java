@@ -1,11 +1,9 @@
 package com.boba.keno.bobafinder;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,6 +27,7 @@ import com.boba.keno.bobafinder.models.BusinessRecyclerViewAdapter;
 import com.boba.keno.bobafinder.models.SortByDistance;
 import com.boba.keno.bobafinder.models.SortByRating;
 import com.boba.keno.bobafinder.models.SortByReview;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,6 +58,10 @@ public class FindBobaActivity extends AppCompatActivity implements ConnectionCal
     BusinessRecyclerViewAdapter adapterDistance;
     BusinessRecyclerViewAdapter adapterRating;
     BusinessRecyclerViewAdapter adapterReview;
+
+    SwipeRefreshLayout distanceSwipeContainer;
+    SwipeRefreshLayout ratingSwipeContainer;
+    SwipeRefreshLayout reviewSwipeContainer;
 
     @Override
     protected void onStart() {
@@ -96,7 +99,7 @@ public class FindBobaActivity extends AppCompatActivity implements ConnectionCal
     public void onConnected(Bundle arg0) {
 
         // Once connected with google api, get the location
-        displayLocation();
+        searchLocation();
     }
 
     @Override
@@ -117,6 +120,44 @@ public class FindBobaActivity extends AppCompatActivity implements ConnectionCal
             buildGoogleApiClient();
         }
 
+        distanceSwipeContainer = (SwipeRefreshLayout) findViewById(R.id.scDistance);
+        distanceSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                searchLocation();
+            }
+        });
+        distanceSwipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+
+        ratingSwipeContainer = (SwipeRefreshLayout) findViewById(R.id.scRating);
+        ratingSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                searchLocation();
+            }
+        });
+        ratingSwipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+
+        reviewSwipeContainer = (SwipeRefreshLayout) findViewById(R.id.scReviews);
+        reviewSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                searchLocation();
+            }
+        });
+        reviewSwipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
         rvBusinessesDistance = (RecyclerView) findViewById(R.id.rvBusinessDistance);
         // Set layout manager to position the items
         rvBusinessesDistance.setLayoutManager(new LinearLayoutManager(this));
@@ -130,6 +171,7 @@ public class FindBobaActivity extends AppCompatActivity implements ConnectionCal
 
 
     }
+
 
     private class YelpTask extends AsyncTask<String, Void, Integer>
     {
@@ -151,12 +193,14 @@ public class FindBobaActivity extends AppCompatActivity implements ConnectionCal
                 JSONObject json = new JSONObject(businesses);
                 JSONArray businessesJson = json.getJSONArray("businesses");
                 //Log.d("help",businessesJson.toString());
+                alBusinesses = new ArrayList<>();
+                alBusinessRating = new ArrayList<>();
+                alBusinessReview = new ArrayList<>();
+
                 alBusinesses = Business.fromJson(businessesJson);
                 alBusinessReview = Business.fromJson(businessesJson);
                 alBusinessRating = Business.fromJson(businessesJson);
-                Collections.sort(alBusinesses, new SortByDistance());
-                Collections.sort(alBusinessReview, new SortByReview());
-                Collections.sort(alBusinessRating, new SortByRating());
+
 
 
                 result =  1; // Success
@@ -171,19 +215,35 @@ public class FindBobaActivity extends AppCompatActivity implements ConnectionCal
 
             if (result == 1) {
 
-                // Create adapter passing in the sample user data
-                adapterDistance = new BusinessRecyclerViewAdapter(FindBobaActivity.this, alBusinesses);
-                // Attach the adapter to the recyclerview to populate items
-                rvBusinessesDistance.setAdapter(adapterDistance);
-                adapterDistance.notifyDataSetChanged();
+                Collections.sort(alBusinesses, new SortByDistance());
+                Collections.sort(alBusinessReview, new SortByReview());
+                Collections.sort(alBusinessRating, new SortByRating());
 
-                adapterRating = new BusinessRecyclerViewAdapter(FindBobaActivity.this, alBusinessRating);
-                rvBusinessesRating.setAdapter(adapterRating);
-                adapterRating.notifyDataSetChanged();
 
-                adapterReview = new BusinessRecyclerViewAdapter(FindBobaActivity.this, alBusinessReview);
-                rvBusinessesReview.setAdapter(adapterReview);
-                adapterReview.notifyDataSetChanged();
+                    adapterDistance = new BusinessRecyclerViewAdapter(FindBobaActivity.this, alBusinesses);
+                    // Attach the adapter to the recyclerview to populate items
+                    rvBusinessesDistance.setAdapter(adapterDistance);
+                    adapterDistance.notifyDataSetChanged();
+
+                    distanceSwipeContainer.setRefreshing(false);
+
+
+
+                    adapterRating = new BusinessRecyclerViewAdapter(FindBobaActivity.this, alBusinessRating);
+                    rvBusinessesRating.setAdapter(adapterRating);
+                    adapterRating.notifyDataSetChanged();
+
+                    ratingSwipeContainer.setRefreshing(false);
+
+
+
+                    adapterReview = new BusinessRecyclerViewAdapter(FindBobaActivity.this, alBusinessReview);
+                    rvBusinessesReview.setAdapter(adapterReview);
+                    adapterReview.notifyDataSetChanged();
+
+                   reviewSwipeContainer.setRefreshing(false);
+
+
             }
             else
             {
@@ -229,19 +289,19 @@ public class FindBobaActivity extends AppCompatActivity implements ConnectionCal
 
         //Distance
         TabHost.TabSpec distanceTab = tabs.newTabSpec("Distance");
-        distanceTab.setContent(R.id.Distance);
+        distanceTab.setContent(R.id.scDistance);
         distanceTab.setIndicator("Distance");
         tabs.addTab(distanceTab);
 
         //Rating
         TabHost.TabSpec ratingTab = tabs.newTabSpec("Rating");
-        ratingTab.setContent(R.id.Rating);
+        ratingTab.setContent(R.id.scRating);
         ratingTab.setIndicator("Rating");
         tabs.addTab(ratingTab);
 
         //Review
         TabHost.TabSpec reviewTab = tabs.newTabSpec("Review");
-        reviewTab.setContent(R.id.Reviews);
+        reviewTab.setContent(R.id.scReviews);
         reviewTab.setIndicator("Review");
         tabs.addTab(reviewTab);
     }
@@ -280,7 +340,7 @@ public class FindBobaActivity extends AppCompatActivity implements ConnectionCal
     /**
      * Method to display the location on UI
      * */
-    private void displayLocation() {
+    private void searchLocation() {
 
         mLastLocation = LocationServices.FusedLocationApi
                 .getLastLocation(mGoogleApiClient);

@@ -30,41 +30,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:id="@+id/Distance"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                <android.support.v4.widget.SwipeRefreshLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/scDistance"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                    <android.support.v7.widget.RecyclerView
+
+                        <android.support.v7.widget.RecyclerView
                         android:id="@+id/rvBusinessDistance"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
-                </LinearLayout>
+                </android.support.v4.widget.SwipeRefreshLayout>
 
-                <LinearLayout
-                    android:id="@+id/Rating"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                <android.support.v4.widget.SwipeRefreshLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/scRating"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                    <android.support.v7.widget.RecyclerView
+
+                        <android.support.v7.widget.RecyclerView
                         android:id="@+id/rvBusinessRating"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
-                </LinearLayout>
+                </android.support.v4.widget.SwipeRefreshLayout>
 
-                <LinearLayout
-                    android:id="@+id/Reviews"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                <android.support.v4.widget.SwipeRefreshLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/scReviews"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                    <android.support.v7.widget.RecyclerView
+
+                        <android.support.v7.widget.RecyclerView
                         android:id="@+id/rvBusinessReview"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
-                </LinearLayout>
+                 </android.support.v4.widget.SwipeRefreshLayout>
             </FrameLayout>
         </LinearLayout>
     </TabHost>
