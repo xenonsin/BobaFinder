@@ -15,6 +15,7 @@ import android.util.Log;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import com.boba.keno.bobafinder.models.Keys;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -42,19 +43,19 @@ public class YelpAPI {
    * Update OAuth credentials below from the Yelp Developers API site:
    * http://www.yelp.com/developers/getting_started/api_access
    */
-  private final static String CONSUMER_KEY = "sXgCHb9x8Gw-ga65qj-XYQ";
-  private final static String CONSUMER_SECRET = "9XIkA0CE0xhZBSPbk_vx_t4o1Os";
-  private final static String TOKEN = "LHDYOs3Za_9myF4qkV176ObVLamOGzNx";
-  private final static String TOKEN_SECRET = "hZFXZ9y_ZK-tDAvRE8fBe069dTg";
+  private final static String CONSUMER_KEY = "";
+  private final static String CONSUMER_SECRET = "";
+  private final static String TOKEN = "";
+  private final static String TOKEN_SECRET = "";
 
   OAuthService service;
   Token accessToken;
   public YelpAPI(){
-    Log.i("Consumer", CONSUMER_KEY);
+    Log.i("Consumer", Keys.CONSUMER_KEY);
     this.service =
-            new ServiceBuilder().provider(TwoStepOAuth.class).apiKey(CONSUMER_KEY)
-                    .apiSecret(CONSUMER_SECRET).build();
-    this.accessToken = new Token(TOKEN, TOKEN_SECRET);
+            new ServiceBuilder().provider(TwoStepOAuth.class).apiKey(Keys.CONSUMER_KEY)
+                    .apiSecret(Keys.CONSUMER_SECRET).build();
+    this.accessToken = new Token(Keys.TOKEN, Keys.TOKEN_SECRET);
   }
   /**
    * Setup the Yelp API OAuth credentials.
